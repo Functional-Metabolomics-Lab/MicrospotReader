@@ -1,6 +1,12 @@
 from collections.abc import MutableSequence
+from copy import deepcopy
 
-from Spot import *
+import numpy as np
+
+from .Grid import Grid
+from .GridPoint import GridPoint
+from .Spot import Spot
+from .SpotList import SpotList
 
 
 class SpotList(MutableSequence):
@@ -29,10 +35,22 @@ class SpotList(MutableSequence):
         return repr(self._list)
 
     @property
-    def avg_radius(self):
+    def mean_radius(self):
         """Calculates the mean radius in pixels for the list of spots.
 
         Returns:
             float: Mean spot radius.
         """
         return np.mean([spot.radius for spot in self._list])
+
+    @property
+    def median_radius(self):
+        """Calculates the median radius in pixels for the list of spots.
+
+        Returns:
+            float: Median spot radius.
+        """
+        return np.median([spot.radius for spot in self._list])
+
+    def copy(self):
+        return deepcopy(self)

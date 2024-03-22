@@ -1,11 +1,11 @@
 import numpy as np
 from skimage.transform import hough_line, hough_line_peaks
 
-from .Grid import *
-from .GridLine import *
-from .GridPoint import *
-from .Spot import *
-from .SpotList import *
+from .Grid import Grid
+from .GridLine import GridLine
+from .GridPoint import GridPoint
+from .Spot import Spot
+from .SpotList import SpotList
 
 
 class GridDetector:

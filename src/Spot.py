@@ -3,6 +3,9 @@ from dataclasses import dataclass, field
 import numpy as np
 from skimage.draw import disk
 
+from .Grid import Grid
+from .GridPoint import GridPoint
+
 
 @dataclass
 class Spot:
@@ -39,3 +42,29 @@ class Spot:
                 f"Spot at Coordinates ({self.x}, {self.y}) could not be drawn: Out of Bounds."
             )
         return image
+
+    def distance_to_gridpoint(self, gridpoint: GridPoint):
+        """Calculates the euclidean distance between the spot and a grid-point.
+
+        Args:
+            gridpoint (GridPoint): Point in a Grid object
+
+        Returns:
+            float: Euclidean distance between spot and gridpoint
+        """
+        return np.linalg.norm(
+            np.array((self.x, self.y)) - np.array((gridpoint.x, gridpoint.y))
+        )
+
+    def deviation_from_grid(self, grid: Grid):
+        """Calculates the minmimum distance of a spot from an intersection in a grid
+
+        Args:
+            grid (Grid): Grid to check deviation from
+
+        Returns:
+            float: minimum distance of spot from an intersection in a grid
+        """
+        return np.min(
+            [self.distance_to_gridpoint(point) for point in grid.intersections]
+        )

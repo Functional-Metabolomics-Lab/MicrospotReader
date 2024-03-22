@@ -1,5 +1,5 @@
-from .GridLine import *
-from .GridPoint import *
+from .GridLine import GridLine
+from .GridPoint import GridPoint
 
 
 class Grid:

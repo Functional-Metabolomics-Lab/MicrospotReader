@@ -6,8 +6,8 @@ from skimage.morphology import disk
 from skimage.transform import hough_circle, hough_circle_peaks
 from skimage.util import img_as_ubyte
 
-from .Spot import *
-from .SpotList import *
+from .Spot import Spot
+from .SpotList import SpotList
 
 
 class SpotDetector:

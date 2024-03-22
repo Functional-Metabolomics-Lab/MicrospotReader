@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from .GridPoint import *
+from .GridPoint import GridPoint
 
 
 @dataclass
