@@ -27,3 +27,12 @@ class SpotList(MutableSequence):
 
     def __repr__(self):
         return repr(self._list)
+
+    @property
+    def avg_radius(self):
+        """Calculates the mean radius in pixels for the list of spots.
+
+        Returns:
+            float: Mean spot radius.
+        """
+        return np.mean([spot.radius for spot in self._list])
