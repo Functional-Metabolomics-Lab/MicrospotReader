@@ -54,3 +54,59 @@ class SpotList(MutableSequence):
 
     def copy(self):
         return deepcopy(self)
+
+    def find_topleft_bycoords(self):
+        """
+        ## Description
+
+        Finds the top-left spot in the list by coordinates of the spots.
+
+        ## Output
+
+        spot-object
+        """
+        return sorted(self._list, key=lambda s: s.x + s.y)[0]
+
+    def find_topright_bycoords(self):
+        """
+        ## Description
+
+        Finds the top-right spot in the list by coordinates of the spots.
+
+        ## Output
+
+        spot-object
+        """
+        return sorted(self._list, key=lambda s: s.x - s.y)[-1]
+
+    def sort(self, serpentine: bool = True, reverse: bool = True):
+        """Sorts the spot list by index so that a retention time can be assigned to each spot.
+
+        Args:
+            serpentine (bool, optional): If true, sorts in a serpentine manner, where odd rows are sorted ascendingly and even rows are sorted descendingly. If false, sort all rows ascendingly. Defaults to True.
+            reverse (bool, optional): Changes the sort direction. Defaults to True.
+        """
+
+        # Check if all spots have an index.
+        assert (
+            len(
+                [
+                    spot
+                    for spot in self._list
+                    if spot.row is np.nan and spot.col is np.nan
+                ]
+            )
+            == 0
+        ), "Not all spots have been assigned an index, cannot sort list!"
+
+        if serpentine:
+            self._list.sort(
+                reverse=reverse,
+                key=lambda x: x.row * 1000  # row gets a higher value for the sort
+                + (x.row % 2)
+                * x.col  # If row is odd, add the column value -> sorts row ascendingly
+                - ((x.row + 1) % 2)
+                * x.col,  # If row is even, subtract the column value -> sorts row descendingly
+            )
+        else:
+            self._list.sort(reverse=reverse, key=lambda x: x.row * 1000 + x.col)

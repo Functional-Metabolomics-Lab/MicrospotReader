@@ -68,3 +68,24 @@ class Spot:
         return np.min(
             [self.distance_to_gridpoint(point) for point in grid.intersections]
         )
+
+    def add_index(
+        self,
+        row_idx: int,
+        col_idx: int,
+        row_name_dictionary: dict = {
+            i: "abcdefghijklmnopqrstuvwxyz"[i - 1] for i in range(1, 27)
+        },
+    ):
+        """Adds index values to the spot
+
+        Args:
+            row_idx (int): row index of the spot
+            col_idx (int): column index of the spot
+            row_name_dictionary (dictionary, optional): dictionary to add a row name to the spot. Defaults to {i:"abcdefghijklmnopqrstuvwxyz"[i - 1] for i in range(1,27)}.
+        """
+
+        self.row = row_idx
+        self.col = col_idx
+
+        self.row_name = row_name_dictionary[row_idx]
