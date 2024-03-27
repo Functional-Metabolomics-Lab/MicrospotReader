@@ -1,5 +1,4 @@
 import numpy as np
-import streamlit as st
 from skimage.feature import canny
 from skimage.filters.rank import equalize
 from skimage.morphology import disk
