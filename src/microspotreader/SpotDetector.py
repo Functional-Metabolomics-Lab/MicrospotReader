@@ -5,8 +5,8 @@ from skimage.morphology import disk
 from skimage.transform import hough_circle, hough_circle_peaks
 from skimage.util import img_as_ubyte
 
-from .Spot import Spot
-from .SpotList import SpotList
+import src.microspotreader.Spot as Spot
+import src.microspotreader.SpotList as SpotList
 
 
 class SpotDetector:
@@ -94,15 +94,15 @@ class SpotDetector:
             * self.hough_transform.max(),
         )
 
-        self.spot_list = SpotList(
-            [
+        self.spot_list = SpotList.SpotList(
+            *[
                 Spot(x=x, y=y, radius=rad, note="Initial Detection")
                 for x, y, rad in zip(spot_x, spot_y, spot_rad)
             ]
         )
         return self.spot_list
 
-    def inital_detection(self, spot_nr: int):
+    def initial_detection(self, spot_nr: int):
         """Performs the entire workflow for initial spot detection.
 
         Args:

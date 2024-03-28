@@ -1,8 +1,12 @@
-from .Grid import Grid
-from .GridLine import GridLine
-from .GridPoint import GridPoint
-from .Spot import Spot
-from .SpotList import SpotList
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+import src.microspotreader.Spot as Spot
+
+if TYPE_CHECKING:
+    import src.microspotreader.Grid as Grid
+    import src.microspotreader.SpotList as SpotList
 
 
 class SpotCorrector:
@@ -11,11 +15,11 @@ class SpotCorrector:
         "from_grid": {"distance_threshold_px": 10},
     }
 
-    def __init__(self, spot_list: SpotList) -> None:
+    def __init__(self, spot_list: SpotList.SpotList) -> None:
         self.spot_list = spot_list
 
     def remove_false_positives_from_grid(
-        self, grid: Grid, distance_threshold_px: float, inplace=True
+        self, grid: Grid.Grid, distance_threshold_px: float, inplace=True
     ):
         """Removes false positive spots by comparing the position of each spot to a grid and removing spots that deviate too much.
 
@@ -38,7 +42,11 @@ class SpotCorrector:
         return spot_list
 
     def backfill_from_grid(
-        self, grid: Grid, distance_threshold_px: float, radius: int = 0, inplace=True
+        self,
+        grid: Grid.Grid,
+        distance_threshold_px: float,
+        radius: int = 0,
+        inplace=True,
     ):
         """Backfills missing spots based on intersections in a grid object.
 
@@ -52,7 +60,7 @@ class SpotCorrector:
             SpotList: Backfilled spotlist object
         """
         if radius == 0:
-            radius = self.median_radius
+            radius = self.spot_list.median_radius
 
         if inplace is True:
             spot_list = self.spot_list
@@ -60,7 +68,7 @@ class SpotCorrector:
             spot_list = self.spot_list.copy()
 
         for intersection in grid.intersections:
-            if intersection.check_for_spot(self, distance_threshold_px):
+            if intersection.check_for_spot(self.spot_list, distance_threshold_px):
                 self.spot_list.append(
                     Spot(
                         x=int(intersection.x),
@@ -71,7 +79,7 @@ class SpotCorrector:
                 )
         return spot_list
 
-    def gridbased_spotcorrection(self, grid: Grid):
+    def gridbased_spotcorrection(self, grid: Grid.Grid):
         """Performs the whole spot-correction workflow based on a detected Grid in place.
 
         Args:
@@ -87,6 +95,6 @@ class SpotCorrector:
         self.backfill_from_grid(
             grid=grid,
             distance_threshold_px=self.settings["from_grid"]["distance_threshold_px"],
-            radius=self.settings["general"]["radius"],
+            radius=self.settings["general"]["spot_radius_backfill"],
         )
         return self.spot_list

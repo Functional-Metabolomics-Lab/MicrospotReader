@@ -1,10 +1,14 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 import numpy as np
 from skimage.draw import disk
 
-from .Grid import Grid
-from .GridPoint import GridPoint
+if TYPE_CHECKING:
+    import src.microspotreader.Grid as Grid
+    import src.microspotreader.GridPoint as GridPoint
 
 
 @dataclass
@@ -43,7 +47,7 @@ class Spot:
             )
         return image
 
-    def distance_to_gridpoint(self, gridpoint: GridPoint):
+    def distance_to_gridpoint(self, gridpoint: GridPoint.GridPoint):
         """Calculates the euclidean distance between the spot and a grid-point.
 
         Args:
@@ -56,7 +60,7 @@ class Spot:
             np.array((self.x, self.y)) - np.array((gridpoint.x, gridpoint.y))
         )
 
-    def deviation_from_grid(self, grid: Grid):
+    def deviation_from_grid(self, grid: Grid.Grid):
         """Calculates the minmimum distance of a spot from an intersection in a grid
 
         Args:
@@ -89,3 +93,37 @@ class Spot:
         self.col = col_idx
 
         self.row_name = row_name_dictionary[row_idx]
+
+    def get_intensity(self, img: np.array, rad: int = None) -> None:
+        """
+        ## Description
+
+        Determines the average pixel-intensity of a spot in an image.
+
+        ## Input
+
+        |Parameter|Type|Description|
+        |---|---|---|
+        |img|np.array|Image to extract spot-intensity from|
+        |rad|int|radius to be used for intensity determination, if None or 0: use the radius determined by spot-detection|
+
+        ## Output
+
+        Avgerage intensity of pixels in spot.
+        """
+        if rad == None or rad == 0:
+            radius = self.radius
+        else:
+            radius = rad
+
+        try:
+            # Indices of all pixels part of the current spot
+            rr, cc = disk((self.y, self.x), radius)
+            # Mean intensity of all pixels within the spot
+            self.int = img[rr, cc].sum() / len(rr)
+            return self.int
+
+        except:
+            print(
+                f"Spot at Coordinates ({self.x}, {self.y}) could not be evaluated: (Partly) Out of Bounds."
+            )

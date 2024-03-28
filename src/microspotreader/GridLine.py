@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from .GridPoint import GridPoint
+import src.microspotreader.GridPoint as GridPoint
 
 
 @dataclass
@@ -43,4 +43,4 @@ class GridLine:
         x = (line.y_intersect - self.y_intersect) / (self.slope - line.slope)
         y = self.slope * x + self.y_intersect
 
-        return GridPoint(x, y)
+        return GridPoint.GridPoint(x, y)

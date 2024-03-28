@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import numpy as np
 from skimage.filters import threshold_otsu
 from skimage.morphology import (
@@ -10,8 +14,10 @@ from skimage.morphology import (
 )
 from skimage.transform import hough_circle, hough_circle_peaks
 
-from .Halo import Halo
-from .SpotList import SpotList
+import src.microspotreader.Halo as Halo
+
+if TYPE_CHECKING:
+    import src.microspotreader.SpotList as SpotList
 
 
 class HaloDetector:
@@ -31,7 +37,7 @@ class HaloDetector:
         "halo_assignment": {"distance_threshold_px": 15},
     }
 
-    def __init__(self, image: np.array, spot_list: SpotList) -> None:
+    def __init__(self, image: np.array, spot_list: SpotList.SpotList) -> None:
         self.image = image
         self.halo_list = None
 
@@ -98,7 +104,7 @@ class HaloDetector:
             * hough_transform.max(),
         )
 
-        return [Halo(x, y, rad) for x, y, rad in zip(cx, cy, radii)]
+        return [Halo.Halo(x, y, rad) for x, y, rad in zip(cx, cy, radii)]
 
     def perform_halo_detection(self):
         """Performs the entire halo detection pipeline using the settings in self.settinfs
@@ -117,7 +123,7 @@ class HaloDetector:
         self.halo_list = self.detect_halos(skeletonized_image=skeletonized_img)
         return self.halo_list
 
-    def assign_halos_to_spots(self, spot_list: SpotList):
+    def assign_halos_to_spots(self, spot_list: SpotList.SpotList):
         """Assigns a halo to a spot if their coordinates match. A match is defined by a distance threshold given by self.settings.
 
         Args:

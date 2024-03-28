@@ -1,14 +1,22 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import numpy as np
 
-from .Spot import Spot
-from .SpotList import SpotList
+import src.microspotreader.SpotList as SpotList
+
+if TYPE_CHECKING:
+    import src.microspotreader.Spot as Spot
 
 
 class SpotIndexer:
-    def __init__(self, spot_list: SpotList) -> None:
+    def __init__(self, spot_list: SpotList.SpotList) -> None:
         self.list = spot_list
 
-    def dist_from_row(self, spot: Spot, left_spot: Spot, right_spot: Spot):
+    def dist_from_row(
+        self, spot: Spot.Spot, left_spot: Spot.Spot, right_spot: Spot.Spot
+    ):
         """Calculates the distance of a spot to a row (line) defined by its left and rightmost spots
 
         Args:
@@ -37,7 +45,7 @@ class SpotIndexer:
             )
         )
 
-    def assing_indexes(
+    def assign_indexes(
         self,
         row_idx_start: int = 1,
         col_idx_start: int = 1,
@@ -55,14 +63,14 @@ class SpotIndexer:
         current_row_idx = row_idx_start
         while len(working_list) > 0:
             # The current top left and top right spots define the upmost row still in the working list
-            topleft = self.list.find_topleft_bycoords()
-            topright = self.list.find_topright_bycoords()
+            topleft = working_list.find_topleft_bycoords()
+            topright = working_list.find_topright_bycoords()
 
             # Add all spots to the current row if their radius is larger than the distance to the row.
             current_row = [
                 spot
                 for spot in self.list
-                if self.dist_from_row(spot, topleft, topright) <= spot.rad
+                if self.dist_from_row(spot, topleft, topright) <= spot.radius
             ]
             col_idx_end = col_idx_start + len(current_row)
             current_row.sort(key=lambda s: s.x)  # Sort row by x-coordinate
@@ -74,7 +82,9 @@ class SpotIndexer:
                 spot.add_index(current_row_idx, column_index)
 
             # remove current row from working list.
-            working_list = [spot for spot in working_list if spot not in current_row]
+            working_list = SpotList.SpotList(
+                *[spot for spot in working_list if spot not in current_row]
+            )
 
             current_row_idx += 1
 

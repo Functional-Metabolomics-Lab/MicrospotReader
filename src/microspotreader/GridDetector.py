@@ -1,11 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import numpy as np
 from skimage.transform import hough_line, hough_line_peaks
 
-from .Grid import Grid
-from .GridLine import GridLine
-from .GridPoint import GridPoint
-from .Spot import Spot
-from .SpotList import SpotList
+import src.microspotreader.Grid as Grid
+import src.microspotreader.GridLine as GridLine
+
+if TYPE_CHECKING:
+    import src.microspotreader.SpotList as SpotList
 
 
 class GridDetector:
@@ -18,7 +22,7 @@ class GridDetector:
         "spot_mask": {"spot_radius": 5},
     }
 
-    def __init__(self, image: np.array, spot_list: SpotList) -> None:
+    def __init__(self, image: np.array, spot_list: SpotList.SpotList) -> None:
         self.spot_list = spot_list
         self.image = image
 
@@ -38,8 +42,8 @@ class GridDetector:
         return self.spot_mask
 
     def sort_lines_by_alignment(
-        self, grid_lines: list[GridLine]
-    ) -> tuple[list[GridLine], list[GridLine]]:
+        self, grid_lines: list[GridLine.GridLine]
+    ) -> tuple[list[GridLine.GridLine], list[GridLine.GridLine]]:
         """Sorts a list of gridlines into lists of horizontal and vertical lines.
 
         Args:
@@ -64,7 +68,7 @@ class GridDetector:
         ]
         return horizontal_lines, vertical_lines
 
-    def detect_gridlines(self, spot_mask: np.array) -> list[GridLine]:
+    def detect_gridlines(self, spot_mask: np.array) -> list[GridLine.GridLine]:
         """Detects lines in the spot-mask.
 
         Args:
@@ -97,11 +101,13 @@ class GridDetector:
             * hough_transform.max(),
         )
 
-        grid_lines = [GridLine(distance=d, angle=a) for a, d in zip(angle, distance)]
+        grid_lines = [
+            GridLine.GridLine(distance=d, angle=a) for a, d in zip(angle, distance)
+        ]
 
         return grid_lines
 
-    def construct_grid(self, grid_lines: list[GridLine]) -> Grid:
+    def construct_grid(self, grid_lines: list[GridLine.GridLine]) -> Grid.Grid:
         """Constructs a Grid-object from Gridlines
 
         Args:

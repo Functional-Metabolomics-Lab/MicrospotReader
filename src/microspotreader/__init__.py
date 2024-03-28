@@ -5,6 +5,7 @@ from .GridPoint import GridPoint
 from .Halo import Halo
 from .HaloDetector import HaloDetector
 from .Spot import Spot
+from .SpotCorrector import SpotCorrector
 from .SpotDetector import SpotDetector
 from .SpotIndexer import SpotIndexer
 from .SpotList import SpotList
