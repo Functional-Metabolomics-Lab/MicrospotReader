@@ -5,6 +5,7 @@ import matplotlib.patheffects as pe
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sns
 from matplotlib.patches import Patch
 
 import src.microspotreader.Spot as Spot
@@ -212,12 +213,7 @@ class SpotList(MutableSequence):
             c="r",
             label="Backfilled Spots",
         )
-        print(
-            df["row_name"].unique(),
-            df["column"].unique(),
-            df[df["column"] == df["column"].min()]["y_coord"],
-            df[df["row"] == df["row"].max()]["x_coord"],
-        )
+
         ax.set(
             ylabel="Row",
             xlabel="Column",
@@ -260,3 +256,24 @@ class SpotList(MutableSequence):
             fancybox=True,
             ncol=5,
         )
+
+    def plot_heatmap(self, ax=None):
+        if ax is None:
+            fig, ax = plt.subplots()
+
+        df = self.to_df().pivot(
+            index="row_name", columns="column", values="spot_intensity"
+        )
+
+        sns.heatmap(
+            data=df,
+            square=True,
+            cmap="viridis",
+            linewidths=1,
+            ax=ax,
+            annot=True,
+            annot_kws={"fontsize": 6},
+        )
+
+        ax.set(ylabel="Row", xlabel="Column")
+        ax.tick_params(axis="y", labelrotation=0)

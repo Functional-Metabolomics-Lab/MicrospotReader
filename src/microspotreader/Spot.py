@@ -78,7 +78,7 @@ class Spot:
         row_idx: int,
         col_idx: int,
         row_name_dictionary: dict = {
-            i: "abcdefghijklmnopqrstuvwxyz"[i - 1] for i in range(1, 27)
+            i: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i - 1] for i in range(1, 27)
         },
     ):
         """Adds index values to the spot
@@ -120,8 +120,8 @@ class Spot:
             # Indices of all pixels part of the current spot
             rr, cc = disk((self.y, self.x), radius)
             # Mean intensity of all pixels within the spot
-            self.int = img[rr, cc].sum() / len(rr)
-            return self.int
+            self.intensity = img[rr, cc].sum() / len(rr)
+            return self.intensity
 
         except:
             print(
