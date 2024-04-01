@@ -199,6 +199,7 @@ class SpotList(MutableSequence):
                     note=row["note"],
                 )
             )
+        return self
 
     def plot_image(self, image: np.array, ax=None):
         if ax is None:
