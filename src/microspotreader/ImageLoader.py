@@ -10,6 +10,15 @@ class ImageLoader:
     def __init__(self) -> None:
         self.image = None
 
+    def set(self, **kwarg):
+        """Change the settings of the image loader by key word arguments"""
+        for key, value in kwarg.items():
+            if key in self.settings:
+                self.settings[key] = value
+
+            else:
+                print(f"invalid setting: {key}")
+
     def load(self, filepath: str):
         """Loads an image from filepath
 

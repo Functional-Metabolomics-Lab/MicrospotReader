@@ -26,6 +26,19 @@ class GridDetector:
         self.spot_list = spot_list
         self.image = image
 
+    def get_settings(self):
+        return self.settings.copy()
+
+    def change_settings_dict(self, settings: dict):
+        assert type(settings) is dict, "Use a dictionary to change settings."
+
+        for key, value in settings.items():
+            if type(value) is dict:
+                for k, v in value.items():
+                    self.settings[key][k] = v
+            else:
+                self.settings[key] = value
+
     def create_spot_mask(self, spot_radius: int = 5) -> np.array:
         """Creates a mask with the dimensions of the image in GridDetector that contains drawn disks of a specified radius at each spots position.
 

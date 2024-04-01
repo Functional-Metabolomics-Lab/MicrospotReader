@@ -18,6 +18,19 @@ class SpotCorrector:
     def __init__(self, spot_list: SpotList.SpotList) -> None:
         self.spot_list = spot_list
 
+    def get_settings(self):
+        return self.settings.copy()
+
+    def change_settings_dict(self, settings: dict):
+        assert type(settings) is dict, "Use a dictionary to change settings."
+
+        for key, value in settings.items():
+            if type(value) is dict:
+                for k, v in value.items():
+                    self.settings[key][k] = v
+            else:
+                self.settings[key] = value
+
     def remove_false_positives_from_grid(
         self, grid: Grid.Grid, distance_threshold_px: float, inplace=True
     ):

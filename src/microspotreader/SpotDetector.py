@@ -33,6 +33,19 @@ class SpotDetector:
     def __init__(self, image: np.array) -> None:
         self.image: np.array = image
 
+    def get_settings(self):
+        return self.settings.copy()
+
+    def change_settings_dict(self, settings: dict):
+        assert type(settings) is dict, "Use a dictionary to change settings."
+
+        for key, value in settings.items():
+            if type(value) is dict:
+                for k, v in value.items():
+                    self.settings[key][k] = v
+            else:
+                self.settings[key] = value
+
     def get_image_edges(self):
         """Perform canny edge detection using the values from 'edge_detection' in self.settings.
 

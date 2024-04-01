@@ -42,6 +42,19 @@ class HaloDetector:
         self.image = image
         self.halo_list = None
 
+    def get_settings(self):
+        return self.settings.copy()
+
+    def change_settings_dict(self, settings: dict):
+        assert type(settings) is dict, "Use a dictionary to change settings."
+
+        for key, value in settings.items():
+            if type(value) is dict:
+                for k, v in value.items():
+                    self.settings[key][k] = v
+            else:
+                self.settings[key] = value
+
     def filter_regional_maxima(self):
         """Creates an image with removed background via morphological reconstruction. As desribed @: https://scikit-image.org/docs/stable/auto_examples/color_exposure/plot_regional_maxima.html#sphx-glr-auto-examples-color-exposure-plot-regional-maxima-py
 

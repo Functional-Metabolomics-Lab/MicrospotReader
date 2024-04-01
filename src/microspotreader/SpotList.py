@@ -60,6 +60,10 @@ class SpotList(MutableSequence):
         """
         return np.median([spot.radius for spot in self._list])
 
+    @property
+    def median_intensity(self):
+        return np.median([spot.intensity for spot in self._list])
+
     def copy(self):
         return copy(self)
 
@@ -135,6 +139,12 @@ class SpotList(MutableSequence):
 
         for spot in self._list:
             spot.intensity *= 1 / mean_control_int
+
+    def normalize_by_median(self):
+        median_int = self.median_intensity
+
+        for spot in self._list:
+            spot.intensity *= 1 / median_int
 
     def scale_halos_to_intensity(self, scaling_factor: float):
         """Replaces a spots intensity with its halos radius, scaled using a scaling factor.
