@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import matplotlib.pyplot as plt
 import numpy as np
 from skimage.filters import threshold_otsu
 from skimage.morphology import (
@@ -24,7 +25,7 @@ class HaloDetector:
     settings: dict = {
         "preprocessing": {
             "disk_radius_opening": 5,
-            "minimum_onbject_size_px": 800,
+            "minimum_object_size_px": 800,
             "disk_radius_dilation": 10,
         },
         "circle_detection": {
@@ -37,7 +38,7 @@ class HaloDetector:
         "halo_assignment": {"distance_threshold_px": 15},
     }
 
-    def __init__(self, image: np.array, spot_list: SpotList.SpotList) -> None:
+    def __init__(self, image: np.array) -> None:
         self.image = image
         self.halo_list = None
 
@@ -75,7 +76,7 @@ class HaloDetector:
         mask = remove_small_objects(mask, min_size=min_object_size)
 
         # Opening of halos such that they are not completely filled. -> would lead to a single point as a skeleton
-        opened_mask = binary_opening(mask, disk(5))
+        opened_mask = binary_opening(mask, disk(opening_disk_radius))
 
         skeleton = skeletonize(opened_mask)
         return binary_dilation(skeleton, disk(dilation_disk_radius))
@@ -104,7 +105,7 @@ class HaloDetector:
             * hough_transform.max(),
         )
 
-        return [Halo.Halo(x, y, rad) for x, y, rad in zip(cx, cy, radii)]
+        return [Halo(x, y, rad) for x, y, rad in zip(cx, cy, radii)]
 
     def perform_halo_detection(self):
         """Performs the entire halo detection pipeline using the settings in self.settinfs
@@ -115,7 +116,7 @@ class HaloDetector:
         filtered_img = self.filter_regional_maxima()
         skeletonized_img = self.create_halo_skeleton(
             filtered_image=filtered_img,
-            opening_disk_radis=self.settings["preprocessing"]["disk_radius_opening"],
+            opening_disk_radius=self.settings["preprocessing"]["disk_radius_opening"],
             min_object_size=self.settings["preprocessing"]["minimum_object_size_px"],
             dilation_disk_radius=self.settings["preprocessing"]["disk_radius_dilation"],
         )
@@ -131,10 +132,17 @@ class HaloDetector:
         """
         for spot in spot_list:
             for halo in self.halo_list:
-                if (
-                    np.linalg.norm(
-                        np.array((halo.x, halo.y)) - np.array((spot.x, spot.y))
-                    )
-                    < self.settings["halo_assignment"]["distance_threshold_px"]
-                ):
-                    spot.halo = halo.rad
+                distance = np.linalg.norm(
+                    np.array((halo.x, halo.y)) - np.array((spot.x, spot.y))
+                )
+                if distance < self.settings["halo_assignment"]["distance_threshold_px"]:
+                    spot.halo_radius = halo.radius
+
+    def plot_halo_locations(self, ax=None):
+        if ax is None:
+            fig, ax = plt.subplots()
+
+        x_coords = [halo.x for halo in self.halo_list]
+        y_coords = [halo.y for halo in self.halo_list]
+
+        ax.scatter(x_coords, y_coords, marker="o", color="magenta")

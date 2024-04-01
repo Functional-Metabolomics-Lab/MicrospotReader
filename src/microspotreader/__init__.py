@@ -4,6 +4,7 @@ from .GridLine import GridLine
 from .GridPoint import GridPoint
 from .Halo import Halo
 from .HaloDetector import HaloDetector
+from .ImageLoader import ImageLoader
 from .Spot import Spot
 from .SpotCorrector import SpotCorrector
 from .SpotDetector import SpotDetector

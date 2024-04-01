@@ -129,7 +129,7 @@ class SpotList(MutableSequence):
         for spot in self._list:
             spot.get_intensity(img=image, rad=radius)
 
-    def normalize_intensities(self):
+    def normalize_by_control(self):
         """Normalises the intensities of all spots by dividing by the mean of spot intensities of type 'control'"""
         mean_control_int = self.mean_intensity_controls
 
@@ -238,12 +238,12 @@ class SpotList(MutableSequence):
             handles.append(patch)
 
             # Displaying all detected Halos with their respective radii.
-            halo_df = df[df["halo"] > 0]
+            halo_df = df[df["halo_radius"] > 0]
             for idx in halo_df.index:
                 ax.text(
                     halo_df.loc[idx, "x_coord"] + 12,
                     halo_df.loc[idx, "y_coord"] - 9,
-                    f'{halo_df.loc[idx,"halo"]:.0f}',
+                    f'{halo_df.loc[idx,"halo_radius"]:.0f}',
                     c="white",
                     size=7,
                     path_effects=[pe.withStroke(linewidth=1, foreground="k")],
@@ -277,3 +277,10 @@ class SpotList(MutableSequence):
 
         ax.set(ylabel="Row", xlabel="Column")
         ax.tick_params(axis="y", labelrotation=0)
+
+    def plot_scatter(self, ax=None):
+        if ax is None:
+            fig, ax = plt.subplots()
+
+        df = self.to_df()
+        sns.scatterplot(df, x="x_coord", y="y_coord", hue="note")

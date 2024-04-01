@@ -123,7 +123,7 @@ class GridDetector:
         intersections = []
         for hor_line in horizontal_lines:
             for vert_line in vertical_lines:
-                intersections.append(hor_line.calculate_intersection(vert_line))
+                intersections.append(vert_line.calculate_intersection(hor_line))
 
         return Grid(
             horizontal_lines=horizontal_lines,
