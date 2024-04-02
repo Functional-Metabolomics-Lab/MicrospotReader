@@ -5,8 +5,8 @@ from skimage.morphology import disk
 from skimage.transform import hough_circle, hough_circle_peaks
 from skimage.util import img_as_ubyte
 
-import src.microspotreader.Spot as Spot
-import src.microspotreader.SpotList as SpotList
+import src.microspotreader.spot_classes.Spot as Spot
+import src.microspotreader.spot_classes.SpotList as SpotList
 
 
 class SpotDetector:

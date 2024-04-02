@@ -4,10 +4,10 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-import src.microspotreader.SpotList as SpotList
+import src.microspotreader.spot_classes.SpotList as SpotList
 
 if TYPE_CHECKING:
-    import src.microspotreader.Spot as Spot
+    import src.microspotreader.spot_classes.Spot as Spot
 
 
 class SpotIndexer:

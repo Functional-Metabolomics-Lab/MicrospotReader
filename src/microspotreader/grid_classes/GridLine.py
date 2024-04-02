@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-import src.microspotreader.GridPoint as GridPoint
+import src.microspotreader.grid_classes.GridPoint as GridPoint
 
 
 @dataclass

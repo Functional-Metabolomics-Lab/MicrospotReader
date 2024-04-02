@@ -15,10 +15,10 @@ from skimage.morphology import (
 )
 from skimage.transform import hough_circle, hough_circle_peaks
 
-import src.microspotreader.Halo as Halo
+import src.microspotreader.halo_classes.Halo as Halo
 
 if TYPE_CHECKING:
-    import src.microspotreader.SpotList as SpotList
+    import src.microspotreader.spot_classes.SpotList as SpotList
 
 
 class HaloDetector:

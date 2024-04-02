@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING
 import matplotlib.pyplot as plt
 
 if TYPE_CHECKING:
-    import src.microspotreader.GridLine as GridLine
-    import src.microspotreader.GridPoint as GridPoint
+    import src.microspotreader.grid_classes.GridLine as GridLine
+    import src.microspotreader.grid_classes.GridPoint as GridPoint
 
 
 class Grid:

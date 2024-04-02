@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import src.microspotreader.Spot as Spot
+import src.microspotreader.spot_classes.Spot as Spot
 
 if TYPE_CHECKING:
-    import src.microspotreader.Grid as Grid
-    import src.microspotreader.SpotList as SpotList
+    import src.microspotreader.grid_classes.Grid as Grid
+    import src.microspotreader.spot_classes.SpotList as SpotList
 
 
 class SpotCorrector:

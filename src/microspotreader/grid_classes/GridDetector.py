@@ -5,11 +5,11 @@ from typing import TYPE_CHECKING
 import numpy as np
 from skimage.transform import hough_line, hough_line_peaks
 
-import src.microspotreader.Grid as Grid
-import src.microspotreader.GridLine as GridLine
+import src.microspotreader.grid_classes.Grid as Grid
+import src.microspotreader.grid_classes.GridLine as GridLine
 
 if TYPE_CHECKING:
-    import src.microspotreader.SpotList as SpotList
+    import src.microspotreader.spot_classes.SpotList as SpotList
 
 
 class GridDetector:

@@ -8,7 +8,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.patches import Patch
 
-import src.microspotreader.Spot as Spot
+import src.microspotreader.spot_classes.Spot as Spot
 
 
 class SpotList(MutableSequence):

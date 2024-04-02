@@ -7,8 +7,8 @@ import numpy as np
 from skimage.draw import disk
 
 if TYPE_CHECKING:
-    import src.microspotreader.Grid as Grid
-    import src.microspotreader.GridPoint as GridPoint
+    import src.microspotreader.grid_classes.Grid as Grid
+    import src.microspotreader.grid_classes.GridPoint as GridPoint
 
 
 @dataclass
