@@ -11,8 +11,6 @@ from src.streamlit.general import *
 
 # Sets up basic page layout
 page_setup()
-
-
 with st.sidebar:
     st.session_state["sidebar"]["data_storage"].add_data_interface(
         st.session_state["image_analysis"]["results"]["spot_list"], "Image Data"

@@ -59,7 +59,7 @@ def initialize_session_states():
             "image": None,
             "disable_start": True,
         },
-        "data_preparation": {"settings": {}},
+        "data_preparation": {"df": None},
         "feature_finding": {"settings": {}},
     }
 

@@ -118,7 +118,7 @@ class HaloDetector:
             * hough_transform.max(),
         )
 
-        return [Halo(x, y, rad) for x, y, rad in zip(cx, cy, radii)]
+        return [Halo.Halo(x, y, rad) for x, y, rad in zip(cx, cy, radii)]
 
     def perform_halo_detection(self):
         """Performs the entire halo detection pipeline using the settings in self.settinfs

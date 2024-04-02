@@ -92,13 +92,13 @@ class DataStorage:
     def display_warning(self):
         self.data_change = True
 
+    def get_selected_names(self, data_type: str):
+        return self.dataframe_display[
+            self.dataframe_display["Select"]
+            & (self.dataframe_display["Type"] == data_type)
+        ]["Name"]
+
     def get_selected_data(self, data_type: str):
-        st.write(
-            self.dataframe_display[
-                self.dataframe_display["Select"]
-                & (self.dataframe_display["Type"] == data_type)
-            ]["id"]
-        )
         return [
             value["data"]
             for key, value in self.saved_data.items()

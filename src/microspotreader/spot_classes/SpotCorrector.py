@@ -32,7 +32,7 @@ class SpotCorrector:
                 self.settings[key] = value
 
     def remove_false_positives_from_grid(
-        self, grid: Grid.Grid, distance_threshold_px: float, inplace=True
+        self, grid: Grid.Grid, distance_threshold_px: float
     ):
         """Removes false positive spots by comparing the position of each spot to a grid and removing spots that deviate too much.
 
@@ -41,18 +41,13 @@ class SpotCorrector:
             distance_threshold (float): Threshold above which spots are removed
             inplace (bool): changes spotlist in place if true. Defaults to True
         """
-
-        if inplace is True:
-            spot_list = self.spot_list
-        else:
-            spot_list = self.spot_list.copy()
-
-        for spot in spot_list:
-            deviation = spot.deviation_from_grid(grid)
-            if deviation > distance_threshold_px:
-                spot_list.remove(spot)
-
-        return spot_list
+        self.spot_list = SpotList(
+            *[
+                spot
+                for spot in self.spot_list
+                if spot.deviation_from_grid(grid) <= distance_threshold_px
+            ]
+        )
 
     def backfill_from_grid(
         self,
@@ -83,7 +78,7 @@ class SpotCorrector:
         for intersection in grid.intersections:
             if intersection.check_for_spot(self.spot_list, distance_threshold_px):
                 self.spot_list.append(
-                    Spot(
+                    Spot.Spot(
                         x=int(intersection.x),
                         y=int(intersection.y),
                         radius=int(radius),

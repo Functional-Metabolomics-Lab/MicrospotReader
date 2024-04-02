@@ -138,7 +138,7 @@ class GridDetector:
             for vert_line in vertical_lines:
                 intersections.append(vert_line.calculate_intersection(hor_line))
 
-        return Grid(
+        return Grid.Grid(
             horizontal_lines=horizontal_lines,
             vertical_lines=vertical_lines,
             intersections=intersections,

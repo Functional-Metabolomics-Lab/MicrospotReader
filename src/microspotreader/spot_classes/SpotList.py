@@ -64,6 +64,36 @@ class SpotList(MutableSequence):
     def median_intensity(self):
         return np.median([spot.intensity for spot in self._list])
 
+    def get_indices(self) -> tuple[list[str], list[int]]:
+        row_indices = sorted(list(set([spot.row_name for spot in self._list])))
+        column_indices = sorted(list(set([spot.col for spot in self._list])))
+
+        return row_indices, column_indices
+
+    def remove_rows(self, row_names: list[str]):
+        """Removes spots with a row index in the passed list.
+
+        Args:
+            row_names (list[str]): list of row indices to remove from the spot_list.
+        """
+        assert (
+            len([spot for spot in self._list if len(spot.row_name) < 1]) == 0
+        ), "Cannot remove rows from list with spots without indices."
+
+        self._list = [spot for spot in self._list if spot.row_name not in row_names]
+
+    def remove_columns(self, column_names: list[int]):
+        """Removes spots with a column index in the passed list.
+
+        Args:
+            column_names (list[str]): list of column indices to remove from the spot_list.
+        """
+        assert (
+            len([spot for spot in self._list if spot.col < 0]) == 0
+        ), "Cannot remove columns from list with spots without indices."
+
+        self._list = [spot for spot in self._list if spot.col not in column_names]
+
     def copy(self):
         return copy(self)
 
@@ -141,12 +171,14 @@ class SpotList(MutableSequence):
             spot.intensity *= 1 / mean_control_int
 
     def normalize_by_median(self):
+        """Normalises the intensities of all spots by dividing by the median spot intensity."""
         median_int = self.median_intensity
 
         for spot in self._list:
             spot.intensity *= 1 / median_int
 
     def reset_intensities(self):
+        """Resets the spot intensity to its raw intensity"""
         for spot in self._list:
             spot.intensity = spot.raw_int
 
@@ -191,7 +223,7 @@ class SpotList(MutableSequence):
         """
         for idx, row in df.iterrows():
             self._list.append(
-                Spot(
+                Spot.Spot(
                     row=row["row"],
                     row_name=row["row_name"],
                     col=row["column"],
@@ -205,6 +237,16 @@ class SpotList(MutableSequence):
                     raw_int=row["raw_int"],
                 )
             )
+        return self
+
+    def from_list(self, datasets: list):
+        """Extends the spotlist by a list of spotlists
+
+        Args:
+            datasets (list): list of spotlists.
+        """
+        for spot_list in datasets:
+            self._list.extend(spot_list)
         return self
 
     def plot_image(self, image: np.array, ax=None):

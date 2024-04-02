@@ -109,7 +109,7 @@ class SpotDetector:
 
         self.spot_list = SpotList.SpotList(
             *[
-                Spot(x=x, y=y, radius=rad, note="Initial Detection")
+                Spot.Spot(x=x, y=y, radius=rad, note="Initial Detection")
                 for x, y, rad in zip(spot_x, spot_y, spot_rad)
             ]
         )
