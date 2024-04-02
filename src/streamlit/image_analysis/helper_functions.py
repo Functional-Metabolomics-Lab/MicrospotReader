@@ -93,3 +93,19 @@ def download_figures(figure_dict: dict, suffix: str = "svg") -> None:
                 use_container_width=True,
             )
         os.unlink(tempzip.name)
+
+
+def update_spotlist(df_new):
+    spot_list = SpotList().from_df(df_new)
+
+    spot_list.reset_intensities()
+
+    if st.session_state["image_analysis"]["settings"]["toggle_normalization"]:
+        spot_list.normalize_by_median()
+
+    if st.session_state["image_analysis"]["settings"]["halo_scaling_toggle"]:
+        spot_list.scale_halos_to_intensity(
+            st.session_state["image_analysis"]["settings"]["halo_scaling_factor"]
+        )
+    st.session_state["image_analysis"]["results"]["spot_list"] = spot_list
+    st.rerun()

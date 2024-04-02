@@ -23,6 +23,7 @@ class Spot:
     col: int = np.nan
     note: str = field(default_factory=lambda: str())
     type: str = field(default_factory=lambda: str())
+    raw_int: float = np.nan
 
     def draw(self, image: np.array, value: int, radius: int = 0):
         """Draws the spot at its coordinates in the given image, with an intensity defined by value and a radius defined by radius.
@@ -121,6 +122,7 @@ class Spot:
             rr, cc = disk((self.y, self.x), radius)
             # Mean intensity of all pixels within the spot
             self.intensity = img[rr, cc].sum() / len(rr)
+            self.raw_int = self.intensity
             return self.intensity
 
         except:

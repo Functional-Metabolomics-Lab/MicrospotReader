@@ -146,6 +146,10 @@ class SpotList(MutableSequence):
         for spot in self._list:
             spot.intensity *= 1 / median_int
 
+    def reset_intensities(self):
+        for spot in self._list:
+            spot.intensity = spot.raw_int
+
     def scale_halos_to_intensity(self, scaling_factor: float):
         """Replaces a spots intensity with its halos radius, scaled using a scaling factor.
 
@@ -173,6 +177,7 @@ class SpotList(MutableSequence):
                 "radius": [spot.radius for spot in self._list],
                 "halo_radius": [spot.halo_radius for spot in self._list],
                 "spot_intensity": [spot.intensity for spot in self._list],
+                "raw_int": [spot.raw_int for spot in self._list],
                 "note": [spot.note for spot in self._list],
             }
         )
@@ -197,6 +202,7 @@ class SpotList(MutableSequence):
                     halo_radius=row["halo_radius"],
                     intensity=row["spot_intensity"],
                     note=row["note"],
+                    raw_int=row["raw_int"],
                 )
             )
         return self

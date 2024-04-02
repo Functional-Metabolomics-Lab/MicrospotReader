@@ -11,6 +11,8 @@ from src.streamlit.general import *
 # Sets up basic page layout
 page_setup()
 
+# TODO: Add saving to session
+
 st.markdown("# Image Analysis")
 
 # Choose how to upload image
@@ -102,23 +104,18 @@ if st.session_state["image_analysis"]["analysis"]:
     st.markdown("## Results")
     tab1, tab2, tab3, tab4 = st.tabs(["Image", "Table", "Heatmap", "Grid"])
 
+    spot_list = st.session_state["image_analysis"]["results"]["spot_list"].copy()
+
     with tab2:
         df = st.session_state["image_analysis"]["results"]["spot_list"].to_df()
-
         df_new = st.data_editor(
-            df, disabled=[name for name in df.columns if name != "halo_radius"]
+            df,
+            disabled=[name for name in df.columns if name != "halo_radius"],
         )
 
-    if not df_new.equals(df):
-        st.session_state["image_analysis"]["results"]["spot_list"] = SpotList().from_df(
-            df_new
-        )
-        if st.session_state["image_analysis"]["settings"]["halo_scaling_toggle"]:
-            st.session_state["image_analysis"]["results"][
-                "spot_list"
-            ].scale_halos_to_intensity(
-                st.session_state["image_analysis"]["settings"]["halo_scaling_factor"]
-            )
+        if st.button("Update Dataset", type="primary"):
+            stim.update_spotlist(df_new)
+
     figuredict = {}
     with tab1:
         fig_img, ax = plt.subplots()
