@@ -1,8 +1,10 @@
 import streamlit as st
+from src.streamlit.DataStorage import DataStorage
 
 
 def initialize_session_states():
     session_states = {
+        "sidebar": {"data_storage": DataStorage()},
         "image_analysis": {
             "settings": {
                 "spot_detector": {

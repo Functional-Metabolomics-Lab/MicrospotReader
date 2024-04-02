@@ -6,12 +6,18 @@ import pandas as pd
 import src.streamlit.image_analysis as stim
 import streamlit as st
 from src.microspotreader import *
+from src.streamlit.DataStorage import DataStorage
 from src.streamlit.general import *
 
 # Sets up basic page layout
 page_setup()
 
-# TODO: Add saving to session
+
+with st.sidebar:
+    st.session_state["sidebar"]["data_storage"].add_data_interface(
+        st.session_state["image_analysis"]["results"]["spot_list"], "Image Data"
+    )
+    st.session_state["sidebar"]["data_storage"].display_data()
 
 st.markdown("# Image Analysis")
 
