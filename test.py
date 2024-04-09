@@ -1,15 +1,6 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import pyopenms as oms
+a = [1, 2, 3, 4, 5]
+b = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
 
-from src.microspotreader import *
-
-exp = oms.MSExperiment()
-
-feature_finder = FeatureFinder(
-    exp=exp, filename_mzml=r"example_files/example_mzml.mzML"
-)
-
-print(feature_finder.run())
-
-print(feature_finder.get_feature_traces())
+for i, indices in enumerate(zip(a, b)):
+    (idx, (left, right)) = indices
+    print(i, idx, left, right)
