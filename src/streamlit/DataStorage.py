@@ -21,19 +21,21 @@ class DataStorage:
         self.id += 1
 
     def update_dataframe_display(self):
+        self.dataframe_display = pd.DataFrame(columns=["Type", "Name", "Select", "id"])
         for key, value in self.saved_data.items():
-            if key not in self.dataframe_display["id"]:
-                new_item = pd.Series(
-                    {
-                        "Type": value["type"],
-                        "Name": value["name"],
-                        "Select": False,
-                        "id": key,
-                    }
-                )
-                self.dataframe_display = pd.concat(
-                    [self.dataframe_display, new_item.to_frame().T], ignore_index=True
-                )
+            # if key not in self.dataframe_display["id"]:
+            new_item = pd.Series(
+                {
+                    "Type": value["type"],
+                    "Name": value["name"],
+                    "Select": False,
+                    "id": key,
+                }
+            )
+
+            self.dataframe_display = pd.concat(
+                [self.dataframe_display, new_item.to_frame().T], ignore_index=True
+            )
 
     def add_data(self, data, name: str, data_type: str):
         self.update_id()
