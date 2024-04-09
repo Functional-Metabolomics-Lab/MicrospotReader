@@ -28,7 +28,7 @@ def run_analysis(first_spot, last_spot):
     spot_corrector.change_settings_dict(
         st.session_state["image_analysis"]["settings"]["spot_corrector"]
     )
-    spot_corrector.gridbased_spotcorrection(grid)
+    spot_list = spot_corrector.gridbased_spotcorrection(grid)
 
     # Indexing of spots
     SpotIndexer(spot_list).assign_indexes(

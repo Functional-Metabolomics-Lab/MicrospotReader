@@ -3,10 +3,10 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import src.microspotreader.spot_classes.Spot as Spot
+import src.microspotreader.spot_classes.SpotList as SpotList
 
 if TYPE_CHECKING:
     import src.microspotreader.grid_classes.Grid as Grid
-    import src.microspotreader.spot_classes.SpotList as SpotList
 
 
 class SpotCorrector:
@@ -41,7 +41,7 @@ class SpotCorrector:
             distance_threshold (float): Threshold above which spots are removed
             inplace (bool): changes spotlist in place if true. Defaults to True
         """
-        self.spot_list = SpotList(
+        self.spot_list = SpotList.SpotList(
             *[
                 spot
                 for spot in self.spot_list
@@ -76,8 +76,8 @@ class SpotCorrector:
             spot_list = self.spot_list.copy()
 
         for intersection in grid.intersections:
-            if intersection.check_for_spot(self.spot_list, distance_threshold_px):
-                self.spot_list.append(
+            if intersection.check_for_spot(spot_list, distance_threshold_px):
+                spot_list._list.append(
                     Spot.Spot(
                         x=int(intersection.x),
                         y=int(intersection.y),

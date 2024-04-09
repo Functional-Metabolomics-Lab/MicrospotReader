@@ -83,10 +83,10 @@ if image_path:
 
     with st.form("Settings", border=False):
 
-        with st.expander("**Spot detection**", expanded=True):
+        with st.expander("**Spot detection**", expanded=False):
             stim.spot_detection_settings()
 
-        with st.expander("**Spot correction**", expanded=True):
+        with st.expander("**Spot correction**", expanded=False):
             stim.spot_correction_settings()
 
         with st.expander("**Halo detection**", expanded=False):
