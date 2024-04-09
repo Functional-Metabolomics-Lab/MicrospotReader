@@ -1,4 +1,6 @@
 from .DataPrep import *
+from .feature_annotation.ActivityAnnotator import ActivityAnnotator
+from .feature_annotation.ActivityPeakDetector import ActivityPeakDetector
 from .feature_annotation.FeatureFinder import FeatureFinder
 from .grid_classes.Grid import Grid
 from .grid_classes.GridDetector import GridDetector
