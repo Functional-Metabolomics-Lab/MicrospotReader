@@ -1,4 +1,5 @@
 from .DataPrep import *
+from .feature_annotation.FeatureFinder import FeatureFinder
 from .grid_classes.Grid import Grid
 from .grid_classes.GridDetector import GridDetector
 from .grid_classes.GridLine import GridLine
