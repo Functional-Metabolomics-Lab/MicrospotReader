@@ -33,7 +33,7 @@ def run_analysis(first_spot, last_spot):
     # Indexing of spots
     SpotIndexer(spot_list).assign_indexes(
         row_idx_start=get_first_rowindex(first_spot),
-        col_idx_start=get_first_rowindex(first_spot),
+        col_idx_start=get_first_colindex(first_spot),
     )
     spot_list.sort(serpentine=False)
     # Intensity determination of spots.
