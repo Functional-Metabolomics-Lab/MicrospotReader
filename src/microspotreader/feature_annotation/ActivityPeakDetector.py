@@ -183,7 +183,7 @@ class ActivityPeakDetector:
         peak_AUC = self.get_peak_AUCs(peak_bounds)
 
         self.peak_list = [
-            Peak(i, *data)
+            Peak.Peak(i, *data)
             for i, data in enumerate(
                 zip(
                     peak_idx_long,
@@ -246,8 +246,8 @@ class ActivityPeakDetector:
 
         for peak in self.peak_list:
             ax.fill_between(
-                self.df.RT.loc[peak.start_idx, peak.end_idx],
-                self.df.spot_intensity.loc[peak.start_idx, peak.end_idx],
+                self.df.RT.loc[peak.start_idx : peak.end_idx],
+                self.df.spot_intensity.loc[peak.start_idx : peak.end_idx],
                 color="palegreen",
             )
 
@@ -263,34 +263,28 @@ class ActivityPeakDetector:
     def plot_heatmap(self, ax=None):
         if ax is None:
             fig, ax = plt.subplots()
+        df = self.wide_df
+
+        df_peak_label = self.df.copy()
+        df_peak_label["Peak"] = ""
+        df_peak_label.loc[[pk.index for pk in self.peak_list], "Peak"] = [
+            f"Peak {pk.number}" for pk in self.peak_list
+        ]
 
         sns.heatmap(
-            data=self.wide_df,
+            data=df,
             square=True,
             cmap="viridis",
             linewidths=1,
             ax=ax,
-            annot=True,
-            annot_kws={"fontsize": 6},
+            annot=df_peak_label.pivot(index="row", columns="column", values="Peak"),
+            fmt="",
+            annot_kws={
+                "fontsize": 5,
+                "color": "r",
+            },
         )
 
         ax.set(ylabel="Row", xlabel="Column")
         ax.tick_params(axis="y", labelrotation=0)
-
-        # Add location of detected peaks to heatmap
-        ax.scatter(
-            self.df.loc[[pk.index for pk in self.peak_list], "column"],
-            -self.df.loc[[pk.index for pk in self.peak_list], "row"],
-            c="r",
-            marker="D",
-        )
-        # Write name of peak to corresponding spot
-        for peak in self.peak_list:
-            ax.text(
-                self.df.loc[peak.index, "column"] + 0.2,
-                -self.df.loc[peak.index, "row"] + 0.2,
-                f"Peak {peak.number}",
-                size=8,
-                c="r",
-                path_effects=[pe.withStroke(linewidth=1, foreground="white")],
-            )
+        ax.tick_params(axis="x", labelrotation=0)
