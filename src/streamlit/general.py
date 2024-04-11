@@ -60,7 +60,40 @@ def initialize_session_states():
             "disable_start": True,
         },
         "data_preparation": {"df": None},
-        "feature_finding": {"settings": {}},
+        "feature_finding": {
+            "settings": {
+                "feature_finder": {
+                    "mass_trace_detection": {
+                        "mass_error_ppm": 10,
+                        "noise_threshold": 1e5,
+                    },
+                    "elution_peak_detection": {
+                        "min_fwhm_s": 1,
+                        "max_fwhm_s": 60,
+                    },
+                    "adduct_detection": {
+                        "adduct_list": [
+                            b"H:+:0.4",
+                            b"Na:+:0.2",
+                            b"NH4:+:0.2",
+                            b"H3O1:+:0.1",
+                            b"CH2O2:+:0.1",
+                            b"H-2O-1:0:0.2",
+                        ]
+                    },
+                },
+                "activity_detector": {
+                    "peak_detection": {
+                        "automatic_threshold": True,
+                        "noise_convergence": 0.02,
+                        "manual_threshold": 0.0,
+                        "minimum_SNR": 3,
+                    }
+                },
+                "activity_annotator": {"rt_correlation": {"window_s": 2, "bias_s": 0}},
+            },
+            "results": None,
+        },
     }
 
     for name, state in session_states.items():

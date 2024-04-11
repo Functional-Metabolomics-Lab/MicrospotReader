@@ -15,7 +15,7 @@ class ActivityPeakDetector:
         "peak_detection": {
             "automatic_threshold": True,
             "noise_convergence": 0.02,
-            "manual_treshold": 0.0,
+            "manual_threshold": 0.0,
             "minimum_SNR": 3,
         }
     }
@@ -221,6 +221,18 @@ class ActivityPeakDetector:
         peak_list = self.create_peak_list(peaks_long, peak_bounds)
 
         return peak_list
+
+    def get_peak_df(self):
+        return pd.DataFrame(
+            {
+                "Peak_No": [pk.number for pk in self.peak_list],
+                "RT": [pk.retention_time for pk in self.peak_list],
+                "intensity": [pk.intensity for pk in self.peak_list],
+                "AUC": [pk.AUC for pk in self.peak_list],
+                "start_RT": [pk.start_RT for pk in self.peak_list],
+                "end_RT": [pk.end_RT for pk in self.peak_list],
+            }
+        )
 
     def plot_chromatogram(self, ax=None):
         if ax is None:

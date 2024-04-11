@@ -14,6 +14,11 @@ activity_table = pd.read_csv(r"example_files\activity_table.csv")
 peak_detector = ActivityPeakDetector(activity_table)
 peak_list = peak_detector.run()
 
+fig, ax = plt.subplots()
+peak_detector.plot_chromatogram(ax=ax)
+plt.show()
+plt.close()
+
 activity_annot = ActivityAnnotator(
     feature_table, feature_chroms, peak_list, activity_table
 )
