@@ -42,7 +42,7 @@ class ActivityAnnotator:
             bias (float): bias in seconds that is applied to the retention time of the activity peak before correlation
         """
         for peak in self.peak_list:
-            peak.correlated_features = self.feature_table.loc[
+            peak.correlated_feature_ids = self.feature_table.loc[
                 window
                 >= np.abs(self.feature_table["RT"] - (peak.retention_time + bias))
             ].index.values
@@ -71,8 +71,9 @@ class ActivityAnnotator:
         feature_bounds = (feature.RT - time_premax, feature.RT + time_postmax)
         return activity_bounds, feature_bounds
 
+    @staticmethod
     @njit
-    def sampling_frequency(self, retention_time_array: np.array):
+    def sampling_frequency(retention_time_array: np.array):
         return len(retention_time_array) / (
             np.max(retention_time_array) - np.min(retention_time_array)
         )
@@ -83,24 +84,24 @@ class ActivityAnnotator:
         sampling_freq = max(
             self.sampling_frequency(sequence_1), self.sampling_frequency(sequence_2)
         )
-        return (bounds[1] - bounds[0]) * sampling_freq
+        return int(np.abs(bounds[1] - bounds[0]) * sampling_freq)
 
+    @staticmethod
     @njit
     def get_interp_chromatogram(
-        self,
         bounds: tuple[float, float],
-        number_datapoints: float,
+        number_datapoints: int,
         retention_times: np.array,
         intensities: np.array,
     ):
-        x_interp = np.linspace(*bounds, number_datapoints)
+        x_interp = np.linspace(*bounds, number_datapoints).astype(np.float64)
         y_interp = np.interp(
             x_interp,
             retention_times,
             intensities,
         )
         y_interp *= 1 / y_interp.max()
-        return np.array([x_interp, y_interp])
+        return x_interp, y_interp
 
     def get_matching_chromatograms(self, peak: Peak.Peak, feature_id: str):
         activity_bounds, feature_bounds = self.get_overlapping_bounds(
