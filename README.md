@@ -2,8 +2,7 @@
 
 # MicroSpot Reader
 
-Web-App for the detection and quantification of Spots on a microfluidics device for the determination of bioactivity of HPLC-fractions in parallel to an HPLC-MS experiment.
-
+Web-App for the detection of bioactive features in an untargeted metabolomics experiment with concomitant bioactivity determination.
 
 ## Web-App
 
@@ -24,9 +23,7 @@ The Web-App is based on streamlit and currently runs on the streamlit cloud serv
 
 `conda activate uspotreader`
 
-4. Start the App by running the following command:
-
-`streamlit run MicrospotReader_App.py`
+4. Start the App by running `run.py`
 
 
 ## Jupyter Notebooks
@@ -36,7 +33,5 @@ Additionally, this Repository contains Jupyter Notebooks in the `notebooks`-fold
 - `image_analysis.ipynb`: Detection and analysis of MicroSpots as well as antimicrobial halos within an image. Determination of bioactivity.
 
 - `data_preparation.ipynb`: Concatenation of Spot-Lists of the same LC-MS run and correlation of MicroSpots with a retention time.
-
-- `mzml_annotation.ipynb`: Annotation of MS1 spectra within a .mzML file with bioactivity at the corresponding retention time.
 
 - `feature_finding.ipynb`: Feature detection and annotation with activity data from .csv file prepared with previous stepas and a .mzML file.
