@@ -2,7 +2,8 @@ import io
 import os
 import tempfile
 import zipfile
-
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pyopenms as oms
 
