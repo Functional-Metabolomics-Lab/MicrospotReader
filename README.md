@@ -12,6 +12,8 @@ The Web-App is based on streamlit and currently runs on the streamlit cloud serv
 
 ### Local Installation:
 
+MicrospotReader can be installed on Windows and Linux. For installation on Linux please download the `linux` branch of this repository.
+
 1. Clone this repository
 2. Open Windows Terminal and go to the main folder of the repository:
 
