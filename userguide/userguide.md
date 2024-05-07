@@ -247,11 +247,33 @@ To smooth out the chromatogram, a one dimensional gaussian filter is then passed
 
 ### Feature finding and annotation
 
+The algorithm for this module is split into three parts: (1) Feature finding, (2) Activity peak detection and (3) Correlation of features with activity peaks.
 
+**(1) Feature Finding:**
+The feature finding algorithm is implemented using pyOpenMS and based on the example algorithms published by the pyOpenMS team in the Documentation: [Untargeted Metabolomics Preprocessing](https://pyopenms.readthedocs.io/en/latest/user_guide/untargeted_metabolomics_preprocessing.html), [Feature Detection](https://pyopenms.readthedocs.io/en/latest/user_guide/feature_detection.html), [Adduct Detection](https://pyopenms.readthedocs.io/en/latest/user_guide/adduct_detection.html) and [Export Files for GNPS](https://pyopenms.readthedocs.io/en/latest/user_guide/export_files_GNPS.html). The order within which these algorithms are implemented is as follows:
+
+1. Feature Detection
+2. Mapping MS2 data to Features
+3. Adduct detection
+4. Exporting files for GNPS
+
+Additionally the chromatograms of each feature are saved in a separate list.
+
+**(2) Activity peak detection:**
+As discussed in previous chapters, highly bioactive peaks may "radiate" outwards and lead to satellite activity peaks. These do not correlate to a bioactive fraction within the spots. In order to avoid detecting satellite peaks, peak detection is done on the heatmap of the activity data. Here a topological local maximum peak detection algorithm from scikit image is used. The threshold for peak detection is either input manually by the user or determined via an algorithm that systematically removes "outliers" from the chromatogram until the baseline of the chromatogram is found. Then standard deviation and mean are calculated of the baseline. The threshold is defined as the mean plus three standard deviations. 
+
+In order to find the start and end points of each detected peak, all local minima are detected within the 1D chromatogram. For each peak the closest minima to the left is considered its starting point and the closest minima to the right is considered its end point.
+
+Finally the AUC of each peak is determined using the peaks start and endpoint.
+
+**(3) Correlation of features with activity peaks:**
+Activity peaks are correlated with features in a two step process: First, potential candidate features are selected for each peak by retention time. Features are selected based on overlapping ret
+
+<!-- TODO: FInish this paragraph -->
 
 ## Settings and Advice
 
-In this chapter, all settings that the user can change are described. Additionally some advice is given on how to determine an appropriate value for each setting in case a setup is used that differs from the one in our lab.
+In this chapter, all settings that the user can change are described. Additionally some advice is given on how to determine an appropriate value for each setting in case a setup is used that differs from the one in our lab. 
 
 ### Image Analysis
 
