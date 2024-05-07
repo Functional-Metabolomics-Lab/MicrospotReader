@@ -330,8 +330,6 @@ class SpotList(MutableSequence):
             cmap="viridis",
             linewidths=1,
             ax=ax,
-            annot=True,
-            annot_kws={"fontsize": 6},
         )
 
         ax.set(ylabel="Row", xlabel="Column")
