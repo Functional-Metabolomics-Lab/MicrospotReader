@@ -12,6 +12,8 @@ st.image(r"assets/Logo.png")
 
 st.markdown("### What is the MicroSpot-Reader WebApp used for?")
 
+# TODO: Update the description to make it sound better.
+
 st.markdown(
     """
     The MicroSpot-Reader WebApp is a bioinformatic tool meant to assist researchers in the identification process of bioactive compounds in complex biological samples during Liquid Chromatography Mass Spectrometry (LC-MS) analysis.

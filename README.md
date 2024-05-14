@@ -36,4 +36,4 @@ Additionally, this Repository contains Jupyter Notebooks in the `notebooks`-fold
 
 - `data_preparation.ipynb`: Concatenation of Spot-Lists of the same LC-MS run and correlation of MicroSpots with a retention time.
 
-- `feature_finding.ipynb`: Feature detection and annotation with activity data from .csv file prepared with previous stepas and a .mzML file.
+- `feature_finding.ipynb`: Feature detection and annotation with activity data from .csv file prepared with previous steps and a .mzML file.

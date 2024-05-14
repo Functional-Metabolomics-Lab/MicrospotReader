@@ -106,7 +106,7 @@ if image_path:
 
 if st.session_state["image_analysis"]["analysis"]:
     st.markdown("## Results")
-    tab1, tab2, tab3, tab4 = st.tabs(["Image", "Table", "Heatmap", "Grid"])
+    tab1, tab2, tab3 = st.tabs(["Image", "Table", "Heatmap"])
 
     spot_list = st.session_state["image_analysis"]["results"]["spot_list"].copy()
 
@@ -134,14 +134,6 @@ if st.session_state["image_analysis"]["analysis"]:
         st.session_state["image_analysis"]["results"]["spot_list"].plot_heatmap(ax=ax)
         st.pyplot(fig_hm)
         figuredict["heatmap"] = fig_hm
-
-    with tab4:
-        fig_grid, ax = plt.subplots()
-        st.session_state["image_analysis"]["results"]["grid"].plot_image(
-            st.session_state["image_analysis"]["image"], ax=ax
-        )
-        st.pyplot(fig_grid)
-        figuredict["detected_grid"] = fig_grid
 
     c1, c2 = st.columns(2)
     with c2:
