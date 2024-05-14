@@ -257,7 +257,7 @@ The feature finding algorithm is implemented using pyOpenMS and based on the exa
 3. Adduct detection
 4. Exporting files for GNPS
 
-Additionally the chromatograms of each feature are saved in a separate list.
+The feature traces acquired in these steps are then used in later steps for correlation with activity data
 
 **(2) Activity peak detection:**
 As discussed in previous chapters, highly bioactive peaks may "radiate" outwards and lead to satellite activity peaks. These do not correlate to a bioactive fraction within the spots. In order to avoid detecting satellite peaks, peak detection is done on the heatmap of the activity data. Here a topological local maximum peak detection algorithm from scikit image is used. The threshold for peak detection is either input manually by the user or determined via an algorithm that systematically removes "outliers" from the chromatogram until the baseline of the chromatogram is found. Then standard deviation and mean are calculated of the baseline. The threshold is defined as the mean plus three standard deviations. 
@@ -267,9 +267,13 @@ In order to find the start and end points of each detected peak, all local minim
 Finally the AUC of each peak is determined using the peaks start and endpoint.
 
 **(3) Correlation of features with activity peaks:**
-Activity peaks are correlated with features in a two step process: First, potential candidate features are selected for each peak by retention time. Features are selected based on overlapping ret
+Feature correlation is a two step process: Features with retention times (RT) similar to peaks in the activity chromatogram are selected as potential candidates. During this step the user can select a tolerance $T$ and an offset $\Delta RT$ for candidate selection. The search window is defined as: $(RT_{activity} + \Delta RT) \pm T$.
 
-<!-- TODO: FInish this paragraph -->
+Shapes of candidate features are then correlated with the shape of the activity peak via pearson correlation. As only the shape and not the amplitude of the signal are supposed to be correlated, both, the feature traces and the activity peak trace, are normalized by setting the maximums to 1. The sampling frequency, start and end points of activity peak and feature candidates are not the same. Pearson correlation requires that all of these values match. Therefore for each feature candidate - activity peak pair, common bounds are derived and interpolated chromatograms are created from both traces with a matching sampling frequency. 
+
+To find common bounds, first the retention times of both the activity peak trace and the feature traces are subtracted by the retention time of their maximum respectively to center the maximum on 0. The common start value is then the start value of the trace closer to the peak maximum. Analogously the common end value is the end value of the trace closer to the peak maximum. Using the common bounds and the higher sampling frequency of the two traces, a common series of retention times is calculated. Interpolated chromatograms are then created for both the activity peak and feature trace by linear interpolation of the common retention times using the original traces as a map. Finally the pearson correlation coefficient between the interpolated chromatograms is determined. Features with a correlation coefficient greater than 0.8 are assigned to their activity peak. The signal preprocessing steps are visualized in Figure 5.
+
+![Determination of the common bounds](../assets/userguide/feature_finding/correlation.png) **Figure 5: Preprocessing of signals for pearson correlation:** (A) Determination of common bounds between the two time series, (B) Different sampling frequencies of the two time series and (C) Common sampling frequency and bounds of the interpolated chromatograms.
 
 ## Settings and Advice
 
