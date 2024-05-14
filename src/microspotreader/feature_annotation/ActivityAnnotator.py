@@ -57,7 +57,7 @@ class ActivityAnnotator:
         Returns:
             activity bounds, feature bounds: retention times for the start and end of both peaks where the size of the window matches.
         """
-        time_premax = min(
+        time_premax = max(
             peak.start_RT - peak.retention_time, feature.RTstart - feature.RT
         )
         time_postmax = min(

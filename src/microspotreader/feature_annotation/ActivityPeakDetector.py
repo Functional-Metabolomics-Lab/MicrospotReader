@@ -48,7 +48,7 @@ class ActivityPeakDetector:
         return self.pivot()
 
     def pivot(self):
-        """Pivot activity table from long to wide format for 2d peakdetection
+        """Pivot activity table from long to wide format for 2d peak detection.
 
         Returns:
             pd.DataFrame: Pivoted activity table.
@@ -59,7 +59,7 @@ class ActivityPeakDetector:
         """Get the indices of local local_minima in the activity chromatogram.
 
         Returns:
-            series: series of indices of local local_minima in the activit chromatogram.
+            series: series of indices of local local_minima in the activity chromatogram.
         """
         local_minima, _ = find_peaks(-self.df.spot_intensity.to_numpy())
         return self.df.index[local_minima]
