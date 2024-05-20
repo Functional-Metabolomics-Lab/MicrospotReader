@@ -101,6 +101,7 @@ dependencies:
       - rpds-py==0.10.6
       - scikit-image==0.22.0
       - scipy==1.11.3
+      - seaborn==0.13.2
       - six==1.16.0
       - smmap==5.0.1
       - stack-data==0.6.3
@@ -121,4 +122,4 @@ dependencies:
       - werkzeug==3.0.1
       - widgetsnbextension==4.0.9
       - zipp==3.17.0
-prefix: C:\Users\Nesiron\.conda\envs\microspotreader
+prefix: C:\Users\Nomis\anaconda3\envs\microspotreader
