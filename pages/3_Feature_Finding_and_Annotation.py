@@ -1,3 +1,5 @@
+import io
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import pyopenms as oms
@@ -25,6 +27,7 @@ with c2:
     match choose_mzml:
         case "Upload .mzML File":
             mzml_upload = st.file_uploader("Upload .mzML File", "mzML")
+            mzml_upload = io.StringIO(mzml_upload.getvalue().decode("utf-8")).read()
 
         case "Example .mzML File":
             mzml_upload = "example_files/example_mzml.mzML"
