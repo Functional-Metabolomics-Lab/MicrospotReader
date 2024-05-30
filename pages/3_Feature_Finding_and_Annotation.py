@@ -23,14 +23,16 @@ with c2:
     choose_mzml = st.selectbox(
         "Upload of .mzML-File:", ["Upload .mzML File", "Example .mzML File"]
     )
-
+    mzml_filename = None
     match choose_mzml:
         case "Upload .mzML File":
             mzml_upload = st.file_uploader("Upload .mzML File", "mzML")
-            mzml_upload = io.StringIO(mzml_upload.getvalue().decode("utf-8")).read()
+
+            if mzml_upload is not None:
+                mzml_filename = mzml_upload.name
 
         case "Example .mzML File":
-            mzml_upload = "example_files/example_mzml.mzML"
+            mzml_filename = "example_files/example_mzml.mzML"
             st.markdown("# ")
             st.info("**Example .mzML File**")
 
@@ -71,7 +73,7 @@ with c1:
             if dataset is not None:
                 dataset = pd.read_csv(dataset)
 
-enable_analysis = type(dataset) == pd.DataFrame and mzml_upload is not None
+enable_analysis = type(dataset) == pd.DataFrame and mzml_filename is not None
 
 with st.form("Settings", border=False):
     c1, c2 = st.columns(2)
@@ -132,8 +134,15 @@ with st.form("Settings", border=False):
         )
 
 if analysis:
+
     exp = oms.MSExperiment()
-    feature_finder = FeatureFinder(exp, mzml_upload)
+    feature_finder = FeatureFinder(exp, mzml_filename)
+
+    if choose_mzml == "Upload .mzML File":
+        feature_finder.load_mzml_fromBuffer(
+            io.StringIO(mzml_upload.getvalue().decode("utf-8")).read()
+        )
+
     feature_finder.change_settings_dict(
         st.session_state["feature_finding"]["settings"]["feature_finder"]
     )
