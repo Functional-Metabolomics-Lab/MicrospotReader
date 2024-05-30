@@ -1,3 +1,5 @@
+import io
+
 import pandas as pd
 import pyopenms as oms
 
@@ -27,6 +29,7 @@ class FeatureFinder:
     def __init__(self, exp: oms.MSExperiment, filename_mzml: str) -> None:
         self.exp: oms.MSExperiment = exp
         self.filename = filename_mzml
+        self.exp_loaded = False
 
         self.feature_map = oms.FeatureMap()
         self.consensus_map = None
@@ -47,6 +50,13 @@ class FeatureFinder:
     def load_mzml(self):
         oms.MzMLFile().load(self.filename, self.exp)
         self.exp.sortSpectra(True)
+        self.exp_loaded = True
+        return self.exp
+
+    def load_mzml_fromBuffer(self, mzml_string: str):
+        oms.MzMLFile().loadBuffer(mzml_string, self.exp)
+        self.exp.sortSpectra(True)
+        self.exp_loaded = True
         return self.exp
 
     def mass_trace_detection(self, mass_error_ppm: float, noise_threshold: float):
@@ -285,7 +295,8 @@ class FeatureFinder:
         Returns:
             dataframe: feature table of the .mzml file
         """
-        self.load_mzml()
+        if not self.exp_loaded:
+            self.load_mzml()
 
         mass_traces = self.mass_trace_detection(
             self.settings["mass_trace_detection"]["mass_error_ppm"],
