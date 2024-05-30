@@ -25,6 +25,7 @@ The MicroSpot-Reader WebApp is implemented in Python 3.11 and leverages the Stre
 |scikit-image   | 0.22.0    | [Van der Walt *et al.*](https://doi.org/10.7717/peerj.453)
 |Matplotlib     | 3.8.0     | [Hunter](https://doi.org/10.1109/MCSE.2007.55)
 |Numba          | 0.59.0    | [Lam *et al.*](https://doi.org/10.1145/2833157.2833162)
+|Seaborn        |  0.13.2   | [Waskom](https://doi.org/10.21105/joss.03021)
 
 ### General Layout
 
