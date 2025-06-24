@@ -22,9 +22,9 @@ services:
         limits:
           memory: 8000M
     environment:
-      VIRTUAL_HOST: microspotter.wanglab.science
+      VIRTUAL_HOST: microspotreader.gnps2.org
       VIRTUAL_PORT: 5000
-      LETSENCRYPT_HOST: microspotter.wanglab.science
+      LETSENCRYPT_HOST: microspotreader.gnps2.org
       LETSENCRYPT_EMAIL: mwang87@gmail.com
 
 networks:
