@@ -6,7 +6,6 @@ import pandas as pd
 import src.streamlit.image_analysis as stim
 import streamlit as st
 from src.microspotreader import *
-from src.streamlit.DataStorage import DataStorage
 from src.streamlit.general import *
 
 # Sets up basic page layout
