@@ -16,3 +16,4 @@ dependencies:
     - numba==0.59.0
     - seaborn==0.13.2
     - scikit-image
+    - imagecodecs==2023.9.18
