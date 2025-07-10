@@ -6,9 +6,9 @@ Web-App for the detection of bioactive features in an untargeted metabolomics ex
 
 ## Web-App
 
-The Web-App is based on streamlit and currently runs on the streamlit cloud service:
+The Web-App is based on streamlit and can be accessed online via the following link:
 
-[![Open Website!](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://uspotreader.streamlit.app/)
+[![Open Website!](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://microspotreader.gnps2.org/)
 
 ### Local Installation:
 
