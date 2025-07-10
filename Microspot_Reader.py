@@ -21,6 +21,8 @@ st.markdown(
     The tool employs an image processing algorithm to extract bioactivity data from optical biological or biochemical assays performed on LC fractions, particularly utilizing grid-based assay systems such as well plates or microfluidic devices. Subsequently, the tool constructs a bioactivity chromatogram, providing a comprehensive representation of bioactive peaks. This chromatogram is then meticulously correlated with features derived from untargeted metabolomics experiments. 
 
     By integrating the bioactivity information with mass spectrometric data, the tool facilitates the precise association of specific m/z-values with bioactive compounds. This synergistic approach aims not only to enhance the accuracy of bioactive compound identification but also provides valuable insights into the molecular basis of bioactivity within complex biological mixtures, thereby advancing our understanding of the functional aspects of metabolomes.
+
+    **For a full explanation of the App please refer to the [Userguide on our GitHub](https://github.com/Functional-Metabolomics-Lab/MicrospotReader/tree/main/userguide).**
 """
 )
 
